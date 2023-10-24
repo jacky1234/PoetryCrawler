@@ -6,6 +6,7 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import json
+
 import pymysql
 
 
@@ -56,21 +57,24 @@ class AuthorPipline(object):
 class PoetPipline(object):
     content = []
 
+    def __init__(self):
+        self.f = None
+
     def open_spider(self, spider):
-        self.f = open("poet.json", 'w')
+        self.f = open(f"assets/poet.json", 'w')
 
     def close_spider(self, spider):
         json.dump(self.content, fp=self.f, indent=4)
         self.f.close()
 
     def process_item(self, item, spider):
-        con = pymysql.connect(host='xx.xx.xx.xx', user='xx', passwd='xx', db='xx', port=xx, charset='utf8')
-        cur = con.cursor()
-        cur.execute('insert into poet values(%s,%s,%s,%s,%s,%s,%s,%s,%s)', (
-        item['name'], item['dynasty'], item['author'], item['content'], item['tag'], item['fanyi'], item['zhushi'],
-        item['cankao'], item['shangxi']))
-        con.commit()
-        con.close()
+        # con = pymysql.connect(host='127.0.0.1', user='test', passwd='test', db='xx', port=3306, charset='utf8')
+        # cur = con.cursor()
+        # cur.execute('insert into poet values(%s,%s,%s,%s,%s,%s,%s,%s,%s)', (
+        #     item['name'], item['dynasty'], item['author'], item['content'], item['tag'], item['fanyi'], item['zhushi'],
+        #     item['cankao'], item['shangxi']))
+        # con.commit()
+        # con.close()
         self.content.append(item)
         print("nNNNNNNNNN", item["n"])
         return item
