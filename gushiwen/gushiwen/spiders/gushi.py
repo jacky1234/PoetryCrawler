@@ -12,9 +12,9 @@ class GushiSpider(scrapy.Spider):
     n = 0
 
     def parse(self, response):
-        # nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
-        # url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
-        url = response.xpath("//div[@class='pageright']/a/@herf").get()
+        nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
+        url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
+        # url = response.xpath("//div[@class='pagesright']/a/@herf").get()
         for item in url:
             yield scrapy.Request(item, callback=self.poet_parse)
         print("DDDDDDDDDDDDD", nextpage[0])
