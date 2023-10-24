@@ -9,6 +9,8 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+print(f"[I]on settings")
+
 BOT_NAME = 'gushiwen'
 
 SPIDER_MODULES = ['gushiwen.spiders']
@@ -88,3 +90,11 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+SPLASH_URL = 'http://localhost:8050'
+DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
+
+
+print(f"[O]on settings")

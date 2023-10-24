@@ -1,25 +1,42 @@
 # -*- coding: utf-8 -*-
+import datetime
 import re
 
 import scrapy
+from scrapy_splash import SplashRequest
 from w3lib.html import remove_tags
+
+
+def get_current_datetime():
+    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 class GushiSpider(scrapy.Spider):
     name = 'gushi'
+
     # allowed_domains = ['https://www.gushiwen.org/shiwen/']
-    start_urls = ['https://www.gushiwen.org/shiwen/']
+
+    def start_requests(self):
+        print(f'[{get_current_datetime()}]start_requests')
+        yield SplashRequest('https://www.gushiwen.org/shiwen/', self.parse,
+                            args={'wait': 2},  # 等待2秒以确保页面加载完成
+                            )
+
     n = 0
 
     def parse(self, response):
-        nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
-        url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
-        # url = response.xpath("//div[@class='pagesright']/a/@herf").get()
-        for item in url:
-            yield scrapy.Request(item, callback=self.poet_parse)
-        print("DDDDDDDDDDDDD", nextpage[0])
-        if nextpage:
-            yield response.follow(nextpage[0], callback=self.parse)
+        try:
+            print(f'[{get_current_datetime()}]parse')
+            # nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
+            # url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
+            # # url = response.xpath("//div[@class='pagesright']/a/@herf").get()
+            # for item in url:
+            #     yield scrapy.Request(item, callback=self.poet_parse)
+            # print("DDDDDDDDDDDDD", nextpage[0])
+            # if nextpage:
+            #     yield response.follow(nextpage[0], callback=self.parse)
+        finally:
+            pass
 
     def poet_parse(self, response):
         itemDict = {}
