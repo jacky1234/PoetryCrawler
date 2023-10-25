@@ -27,6 +27,7 @@ class GushiSpider(scrapy.Spider):
     def parse(self, response):
         try:
             print(f'[{get_current_datetime()}]parse')
+            response.xpath(f"//")
             # nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
             # url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
             # # url = response.xpath("//div[@class='pagesright']/a/@herf").get()
