@@ -5,7 +5,6 @@ import re
 import scrapy
 from scrapy_splash import SplashRequest
 from w3lib.html import remove_tags
-from pathlib import Path
 
 
 def get_current_datetime():
@@ -24,23 +23,25 @@ class GushiSpider(scrapy.Spider):
     n = 0
 
     def parse(self, response):
-        try:
-            print(f'parse[I][{get_current_datetime()}]:url={response.request.url}')
-            # 测试
-            # Path(f"assets/html/{response.request.url.split('/')[-1].split('.')[-2]}_body.txt").write_bytes(response.body)
+        print(f'parse[I][{get_current_datetime()}]:url={response.request.url}')
+        # 写入缓存方便测试
+        # Path(f"assets/html/{response.request.url.split('/')[-1].split('.')[-2]}_body.txt").write_bytes(response.body)
 
-            # response.xpath(f"//div[@class='main']/div[@class='left']")
-            # nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
-            # url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
-            # # url = response.xpath("//div[@class='pagesright']/a/@herf").get()
-            # for item in url:
-            #     yield scrapy.Request(item, callback=self.poet_parse)
-            # print("DDDDDDDDDDDDD", nextpage[0])
-            # if nextpage:
-            #     yield response.follow(nextpage[0], callback=self.parse)
-            print(f'parse[O][{get_current_datetime()}]:url={response.request.url}')
-        finally:
+        # 下一页
+        next_url = response.xpath("//div[@class='pagesright']/a[@class='amore']/@href").get()
+        if next_url:
             pass
+
+        # response.xpath(f"//div[@class='main']/div[@class='left']")
+        # nextpage = response.css("form .pagesright .amore").css("a::attr(href)").extract()
+        # url = response.css(".cont p a[target=_blank]").css("a::attr(href)").extract()
+        # # url = response.xpath("//div[@class='pagesright']/a/@herf").get()
+        # for item in url:
+        #     yield scrapy.Request(item, callback=self.poet_parse)
+        # print("DDDDDDDDDDDDD", nextpage[0])
+        # if nextpage:
+        #     yield response.follow(nextpage[0], callback=self.parse)
+        print(f'parse[O][{get_current_datetime()}]:url={response.request.url}')
 
     def poet_parse(self, response):
         itemDict = {}
