@@ -15,17 +15,17 @@ def get_current_datetime():
 
 class GushiSpider(scrapy.Spider):
     name = 'gushi'
+    n = 0
+    # start_urls = ['https://www.gushiwen.org/shiwen/']
 
     def start_requests(self):
-        print(f'[{get_current_datetime()}]start_requests')
-        yield SplashRequest('https://www.gushiwen.org/shiwen/', self.parse,
-                            args={'wait': 2},  # 等待2秒以确保页面加载完成
-                            )
-
-    n = 0
+        self.logger.debug(f'[{get_current_datetime()}]start_requests')
+        shiwen_ = 'https://www.gushiwen.org/shiwen/'
+        self.logger.debug(f'request[I:{self.n}][{get_current_datetime()}]:url={shiwen_}')
+        yield SplashRequest(shiwen_, self.parse, args={'wait': 2})
 
     def parse(self, response):
-        print(f'parse[I:{self.n}][{get_current_datetime()}]:url={response.request.url}')
+        self.logger.debug(f'request[O:{self.n}][{get_current_datetime()}]:url={response.request.url}')
         # 写入缓存方便测试
         # Path(f"assets/html/{response.request.url.split('/')[-1].split('.')[-2]}_body.txt").write_bytes(response.body)
 
@@ -34,16 +34,13 @@ class GushiSpider(scrapy.Spider):
         # 处理下一页
         next_url = response.xpath("//div[@class='pagesright']/a[@class='amore']/@href").get()
         if next_url:
-            yield SplashRequest(next_url, self.parse,
-                                args={'wait': 2},  # 等待2秒以确保页面加载完成
-                                )
+            self.logger.debug(f'request[I:{self.n}][{get_current_datetime()}]:url={response.request.url}')
+            yield SplashRequest(next_url, self.parse, args={'wait': 2})
         else:
-            print(f'parse[#], No next page!')
-
-        print(f'parse[O:{self.n}][{get_current_datetime()}]:url={response.request.url}')
+            self.logger.debug(f'parse[#], No next page!')
 
     def poet_parse(self, response):
-        Path(f"assets/html/page_{self.n}_body.txt").write_bytes(response.body)
+        Path(f"assets/cache/page_{self.n}_body.txt").write_bytes(response.body)
         self.n += 1
         # itemDict = {}
         # title = re.findall(r">.+</h1>", response.css(".cont h1").extract()[0])[0][1:-5]
