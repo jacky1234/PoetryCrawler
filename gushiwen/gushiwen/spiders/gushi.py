@@ -19,7 +19,6 @@ class GushiSpider(scrapy.Spider):
     # start_urls = ['https://www.gushiwen.org/shiwen/']
 
     def start_requests(self):
-        self.logger.debug(f'[{get_current_datetime()}]start_requests')
         shiwen_ = 'https://www.gushiwen.org/shiwen/'
         self.logger.debug(f'request[I:{self.n}][{get_current_datetime()}]:url={shiwen_}')
         yield SplashRequest(shiwen_, self.parse, args={'wait': 2})
