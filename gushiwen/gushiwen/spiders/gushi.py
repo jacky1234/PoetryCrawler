@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
 import re
-from pathlib import Path
 
 import scrapy
 from scrapy_splash import SplashRequest
@@ -17,6 +16,7 @@ def get_current_datetime():
 class GushiSpider(scrapy.Spider):
     name = 'gushi'
     n = 0
+
     # start_urls = ['https://www.gushiwen.cn/shiwen/']
 
     def start_requests(self):
@@ -28,7 +28,7 @@ class GushiSpider(scrapy.Spider):
         self.logger.debug(f'request[O:{self.n}][{get_current_datetime()}]:url={response.request.url}')
 
         # 解析当前页
-        self.poet_parse(response)
+        yield self.poet_parse(response)
         # 处理下一页
         next_url = response.xpath("//div[@class='pagesright']/a[@class='amore']/@href").get()
         # next_url = response.css('.pagesright div').css('.amore a').attrib["href"]
