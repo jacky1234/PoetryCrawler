@@ -2,9 +2,9 @@
 class TagPipeline(object):
     content=[]
     def open_spider(self,spider):
-    	self.f=open("style.json",'w')
+    	self.f=open("style.origin",'w')
     def close_spider(self,spider):
-    	json.dump(self.content,fp=self.f,indent=4)
+    	origin.dump(self.content,fp=self.f,indent=4)
     	self.f.close()
     def process_otem(self,item,spider):
 		con=MySQLdb.connect(host='xx.xx.xx.xx',user='xx',passwd='xx',db='xx',port=xx,charset='utf8')

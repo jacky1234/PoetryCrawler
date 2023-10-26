@@ -14,7 +14,7 @@ class GushiwenPipeline(object):
     content = []
 
     def open_spider(self, spider):
-        self.f = open("style.json", 'w')
+        self.f = open("style.origin", 'w')
 
     def close_spider(self, spider):
         json.dump(self.content, fp=self.f, indent=4)
@@ -61,7 +61,7 @@ class PoetPipline(object):
         self.f = None
 
     def open_spider(self, spider):
-        self.f = open(f"assets/poet.json", 'w')
+        self.f = open(f"assets/poet.origin", 'w')
 
     def close_spider(self, spider):
         json.dump(self.content, fp=self.f, indent=4)
