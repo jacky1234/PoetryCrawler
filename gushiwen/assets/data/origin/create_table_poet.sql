@@ -1,4 +1,5 @@
-CREATE TABLE `poetdb`.`poet` (
+CREATE TABLE IF NOT EXISTS `poetdb`.`poet`  (
+id INT AUTO_INCREMENT PRIMARY KEY,
 name varchar(20),
 dynasty varchar(10),
 author varchar(5),
