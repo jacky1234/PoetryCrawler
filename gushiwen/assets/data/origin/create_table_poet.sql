@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `poetdb`.`poet`  (
 id INT AUTO_INCREMENT PRIMARY KEY,
-name varchar(20),
-dynasty varchar(10),
-author varchar(5),
+name varchar(64),
+dynasty varchar(32),
+author varchar(32),
 content text,
 tag text,
 fanyi text,
