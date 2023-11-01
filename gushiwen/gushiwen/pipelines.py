@@ -74,7 +74,7 @@ class AuthorPipline(object):
             return item
 
         file_name = f"{item_dict['name']}.png"
-        Path(f"assets/cache/images/{file_name}").write_bytes(response.body)
+        Path(f"assets/data/dump/authors/{file_name}").write_bytes(response.body)
         return item
 
 
