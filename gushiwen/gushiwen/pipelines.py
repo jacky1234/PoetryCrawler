@@ -7,8 +7,6 @@
 
 import json
 
-import pymysql
-
 
 class GushiwenPipeline(object):
     content = []
@@ -37,20 +35,18 @@ class GushiwenPipeline(object):
 class AuthorPipline(object):
     content = []
 
+    def __init__(self):
+        self.f = None
+
     def open_spider(self, spider):
-        self.f = open("author.json", 'w')
+        self.f = open(f"assets/data/dump/author.json", 'w')
 
     def close_spider(self, spider):
         json.dump(self.content, fp=self.f, indent=4)
         self.f.close()
 
     def process_item(self, item, spider):
-        # con=MySQLdb.connect(host='xx.xx.xx.xx',user='xx',passwd='xx',db='xx',port=xx,charset='utf8')
-        # cur=con.cursor()
-        # cur.execute('insert into author values(%s,%s,%s)',(item['name'],item['img'],item['detail']))
-        # con.commit()
-        # con.close()
-        # self.content.append(item)
+        print(item)
         return item
 
 
@@ -61,7 +57,7 @@ class PoetPipline(object):
         self.f = None
 
     def open_spider(self, spider):
-        self.f = open(f"assets/poet.origin", 'w')
+        self.f = open(f"assets/data/dump/poet.json", 'w')
 
     def close_spider(self, spider):
         json.dump(self.content, fp=self.f, indent=4)
