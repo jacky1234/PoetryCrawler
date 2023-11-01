@@ -1,3 +1,3 @@
 from scrapy import cmdline
 
-cmdline.execute("scrapy runspider gushiwen/spiders/gushi.py".split())
+cmdline.execute("scrapy runspider gushiwen/spiders/author.py".split())

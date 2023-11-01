@@ -67,7 +67,8 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'gushiwen.pipelines.PoetPipline': 300,
+   # 'gushiwen.pipelines.PoetPipline': 300,
+   'gushiwen.pipelines.AuthorPipline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
