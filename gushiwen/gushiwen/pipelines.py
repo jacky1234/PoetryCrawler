@@ -6,10 +6,19 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import json
+from pathlib import Path
+
+import scrapy
+from itemadapter import ItemAdapter
+from scrapy.http.request import NO_CALLBACK
+from scrapy.utils.defer import maybe_deferred_to_future
 
 
 class GushiwenPipeline(object):
     content = []
+
+    def __init__(self):
+        self.f = None
 
     def open_spider(self, spider):
         self.f = open("style.origin", 'w')
@@ -45,8 +54,27 @@ class AuthorPipline(object):
         json.dump(self.content, fp=self.f, indent=4)
         self.f.close()
 
-    def process_item(self, item, spider):
-        self.content.append(item)
+    # https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+    async def process_item(self, item, spider):
+        # 写入json文件
+        item_dict = ItemAdapter(item).asdict()
+        self.content.append(item_dict)
+
+        # 下载 image
+        # image_url = quote(item_dict['image'])
+        image_url = item_dict['image']
+        request = scrapy.Request(image_url, callback=NO_CALLBACK, headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
+        })
+        response = await maybe_deferred_to_future(
+            spider.crawler.engine.download(request)
+        )
+        if response.status != 200:
+            # Error happened, return item.
+            return item
+
+        file_name = f"{item_dict['name']}.png"
+        Path(f"assets/cache/images/{file_name}").write_bytes(response.body)
         return item
 
 

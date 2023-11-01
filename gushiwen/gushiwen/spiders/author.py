@@ -30,15 +30,7 @@ class AuthorSpider(scrapy.Spider):
             author_item['detail'] = author_detail
             yield author_item
 
-            # authorDict.append(
-            #     {
-            #         'name': author_name,
-            #         'img': author_image,
-            #         'detail': author_detail
-            #     }
-            # )
-
-        # if nextpage:
-        #     url = "https://so.gushiwen.org" + nextpage[0]
-        #     # print("URLLLLLLLLLLL",url)
-        #     yield scrapy.Request(url, callback=self.parse)
+        if nextpage:
+            url = "https://so.gushiwen.org" + nextpage[0]
+            # self.log(f"next request: {url}")
+            yield scrapy.Request(url, callback=self.parse)
