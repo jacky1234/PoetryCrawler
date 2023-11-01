@@ -46,7 +46,7 @@ class AuthorPipline(object):
         self.f.close()
 
     def process_item(self, item, spider):
-        print(item)
+        self.content.append(item)
         return item
 
 
