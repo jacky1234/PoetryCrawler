@@ -105,6 +105,7 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 SPIDER_MIDDLEWARES = {
+    # 用于处理请求参数的去重. 它可以在向 Splash 发送请求时去除重复的请求参数，以减少不必要的请求并提高爬取效率。设置其优先级为 100 表示它会在其他 Spider 中间件之前执行。
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
 
